@@ -1,0 +1,77 @@
+<!-- <p>to-dos works!</p> -->
+
+<!-- <ul *ngFor="let Todo of todoshere">
+    <li>{{Todo.sno}}-{{Todo.title}}-{{Todo.desc}}</li>
+</ul> -->
+<h1 class="text-center">Welcome To Todos List</h1>
+<div class="container" >
+  <app-add-tod (todoAdd)="addTodo($event)"></app-add-tod>
+  <h4>Your Todos</h4>
+  <!-- <p>{{ todos}}</p> -->
+  <div *ngIf="this.todoshere.length === 0&&this.todosheredone.length === 0 ; else NonEmpty">
+    <h3 style="color: rgb(246, 4, 4);">No Todos to display</h3>
+  </div>
+  <ng-template #NonEmpty >
+  
+
+
+<div cdkDropListGroup class="row">
+  <div class="example-container"class="col-md-6">
+    <h2>To do-{{this.todoshere.length}}</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="todoshere"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let Todo of todoshere" cdkDrag>
+        <app-todo-item [Todo]="Todo"  (todoDelete)="deleteTodo($event)"  (todoCheckbox)="toggleTodo($event)">
+        </app-todo-item>
+        <ng-container *ngIf="edit ||editingTodo!==Todo; else elseBlock">
+          <div>
+            <button type="button" class="btn btn-sm btn-primary" (click)="editClick(Todo)" >Edit </button>
+          </div>
+        </ng-container>
+        
+        <ng-template #elseBlock>
+          <div class="form-group">
+            <label for="Title" class="form-label">Todo Title</label>
+            <input [maxLength]="50" type="text" [(ngModel)]="inputValuetitle"  class="form-control" id="title" name="title" aria-describedby="emailHelp">
+            <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+        </div>
+        <div class="form-group">
+          <label for="desc" class="form-label">Todo Description</label>
+          <input type="text" [(ngModel)]="inputValuedesc" class="form-control" id="desc" name="desc">
+  </div>
+          <div>
+            <button  style="background-color: green;" type="button"(click)="updateClick(Todo)" class="btn btn-sm btn-primary"  >Update</button>
+            <button type="button" class="btn btn-sm btn-primary"  (click)="cancelClick(Todo)">Cancel </button>
+          </div>
+        </ng-template>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="example-container" class="col-md-6" >
+    <h2>Done-{{this.todosheredone.length}}</h2>
+
+    <div
+      cdkDropList
+      [cdkDropListData]="todosheredone"
+      class="example-list"
+      (cdkDropListDropped)="drop($event)">
+      <div class="example-box" *ngFor="let Todo of todosheredone" cdkDrag>
+        <app-todo-item [Todo]="Todo"  (todoDelete)="deleteTodo($event)"  (todoCheckbox)="toggleTodo($event)">
+      </app-todo-item>
+    </div>
+    </div>
+  </div>
+</div>
+
+   
+  </ng-template>
+</div>
+
+
+
